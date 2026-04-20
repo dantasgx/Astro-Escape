@@ -1,3 +1,10 @@
+
+// ==================================================
+// TESTE DE FASES
+// ==================================================
+let debugFase = 4; // muda aqui pra testar qualquer fase
+
+
 // ===================================================
 //    CANVAS
 // ==================================================
@@ -55,16 +62,21 @@ let morreu = false
 // Diz se o jogador está no chão ou em alguma plataforma (pra permitir pulo)
 let noChao = false;
 
-// usado pra evitar perder mais de 1 vida ao encostar no inimigo 
+// usado pra evitar perder mais de 1 vida ao encostar no inimigo e espinho
 let encostandoNoInimigo = false;
 let podeTomarDano = true;
+let encostandoNoEspinho = false;
+let mortesTotais = 0;
 
 let faseAtual = 1;
 
-// let plataformas = []
-// let itens = []
-// let inimigos = []
-// let nave = {}
+let plataformas = []
+let itens = []
+let inimigos = []
+let espinhos = []
+let nave = {}
+
+let mostrandoIntroFase = true
 
 // ===================================================
 //    TECLADO
@@ -97,6 +109,51 @@ function colisao(a,b){ // a = player; b = item/inimigo
     );
 }
 
+function TextoDaFase(){
+    if(faseAtual == 1){
+        return{
+            titulo: "FASE 1 - PLANETA ORION",
+            descricao1: "Fase inicial. Aprenda os comandos,",
+            descricao2: "colete os itens e ative a nave."
+        };
+    }
+    if(faseAtual ==2){
+        return{
+            titulo: "FASE 2 - PLANETA VOID-9",
+            descricao1: "Um planeta em ruínas, sem chão seguro.",
+            descricao2: "Cuidado com os pulos e ameaças."
+        };
+    }
+    if(faseAtual == 3){
+        return{
+            titulo: "FASE 3 - PLANETA THORNIX",
+            descricao1: "Um planeta hostil cheio de espinhos.",
+            descricao2: "Atravesse com cuidado. Depois não diga que eu não avisei."
+        }
+    }
+    if(faseAtual ==4){
+        return{
+            titulo: "FASE 4 - PLANETA UMBRA",
+            descricao1: "Um planeta mergulhado na escuridão.",
+            descricao2: "Siga apenas a luz ao seu redor e avance com cuidado."
+        };
+
+
+    }
+    return {
+        titulo: "FASE",
+        descricao1: "",
+        descricao2: ""
+    }
+}
+
+// ===================================================
+//    FUNÇÕES PARA CARREGAR AS FASES DO JOGO
+// ==================================================
+
+// ----------------------------------------------
+//    FUNÇÃO FASE 1
+// ----------------------------------------------
 function carregarFase1(){
     // PLATAFORMAS
     plataformas = [
@@ -116,6 +173,9 @@ function carregarFase1(){
         {x: 400, y: 250, w: 40, h: 30, color: "red"}
     ]
 
+    // ESPINHOS
+    espinhos = [];
+
     // NAVE
     nave = {
         x: 700, y: 290, w: 60, h:60, color: "blue"
@@ -127,8 +187,13 @@ function carregarFase1(){
     player.x = spawnX;
     player.y = spawnY;
     player.vy = 0;
+
 }
 
+
+// ----------------------------------------------
+//    FUNÇÃO FASE 2
+// ----------------------------------------------
 function carregarFase2(){
     // PLATAFORMAS
     plataformas = [
@@ -158,6 +223,9 @@ function carregarFase2(){
 
     ];
 
+    // ESPINHOS
+    espinhos = [];
+
     // NAVE
     nave = {
         x: 700,
@@ -178,8 +246,195 @@ function carregarFase2(){
     player.x = spawnX;
     player.y = spawnY;
     player.vy = 0;
+
 }
 
+// ----------------------------------------------
+//    FUNÇÃO FASE 3
+// ----------------------------------------------
+function carregarFase3(){
+    // PLATAFORMAS
+    plataformas = [
+        {x: 0, y: 320, w: 120, h: 80, color: "darkred"}, // ok
+        {x: 190, y: 300, w: 150, h: 110, color: "darkred"}, // ok
+        {x: 425, y: 345, w: 160, h: 80, color: "darkred"}, // ok
+        {x: 660, y: 310, w: 160, h: 100, color: "darkred"}, // ok
+        {x: 720, y: 275 , w: 100, h: 35, color: "darkred"}, // ok
+
+        {x: 170, y: 205, w: 120, h: 10, color: "darkred"}, //ok
+        {x: 330, y: 250, w: 110, h: 10, color: "darkred"}, // ok
+        {x: 570, y: 235, w: 85, h:10, color: "darkred"}, // ok
+    
+
+        {x: 0, y: 165, w: 140, h:10, color: "darkred"}, // ok
+        {x: 470, y: 210, w: 80, h:10, color: "darkred"}, //ok
+        {x: 150, y: 105, w: 650, h:10, color: "darkred"}, // ok
+    ]
+    
+    // ITENS
+    itens = [
+        {x: 10, y:135, w:20, h: 20, color: "cyan", coletado: false}, //ok
+        {x: 715, y:25, w:20, h: 20, color: "cyan", coletado: false}, //
+    ]
+
+    // INIMIGOS
+    inimigos =[]
+
+    // ESPINHOS
+    espinhos = [
+        { x: 120, y: 385, w: 70, h: 15, color: "silver" }, // ok
+        { x: 340, y: 385, w: 85, h: 15, color: "silver" }, // ok
+        { x: 290, y: 285, w: 50, h: 15, color: "silver" }, // ok
+        { x: 480, y: 330, w: 50, h: 15, color: "silver" }, // ok
+        { x: 585, y: 385, w: 75, h: 15, color: "silver" }, // ok
+        {x: 0, y: 175, w: 140, h:15, color: "silver"}, // ok
+        {x: 55, y: 150, w: 35, h:15, color: "silver"}, // ok
+
+        {x: 570, y: 245, w: 85, h:15, color: "silver"}, // ok
+        {x: 600, y: 220, w: 25, h:15, color: "silver"}, // ok
+
+        { x: 200, y: 90, w: 55, h: 15, color: "silver" }, // ok
+        { x: 310, y: 90, w: 55, h: 15, color: "silver" }, // ok
+        { x: 420, y: 90, w: 55, h: 15, color: "silver" }, // ok
+        { x: 530, y: 90, w: 55, h: 15, color: "silver" }, // ok
+        { x: 640, y: 90, w: 55, h: 15, color: "silver" }, // ok
+        { x: 760, y: 90, w: 50, h: 15, color: "silver" }, // ok
+        
+
+        { x: 500, y: 195, w: 25, h: 15, color: "silver" },
+
+        { x: 365,  y: 235, w: 40, h: 15, color: "silver" },// ok
+        { x: 210, y: 190, w: 40, h: 15, color: "silver" }, //  ok
+    ]
+
+    // NAVE
+    nave = {
+        x: 735, y: 215, w:60, h:60, color: "blue"
+    }
+
+    // SPAWN PLAYER
+    spawnX = 20;
+    spawnY = 280;
+
+    player.x = spawnX;
+    player.y = spawnY
+    player. vy = 0;
+
+    // RESETAR FASE
+    itensColetados = 0;
+    faseConcluida = false;
+    mensagem = "";
+}
+
+// ----------------------------------------------
+//    FUNÇÃO FASE 4
+// ----------------------------------------------
+function carregarFase4(){
+    // PLATAFORMAS
+    plataformas = [
+        { x: 0,   y: 340, w: 50, h: 60, color: "midnightblue", solido: true },// ok
+        { x: 50,   y: 370, w: 60, h: 40, color: "midnightblue" , solido: true},// ok
+        { x: 190,   y: 370, w: 360, h: 40, color: "midnightblue" , solido: true},// ok
+        { x: 550,   y: 395, w: 155, h: 5, color: "midnightblue" , solido: true},// ok
+        { x: 705,   y: 370, w: 50, h:30, color: "midnightblue" , solido: true},// ok
+        { x: 755,   y: 320, w: 50, h:90, color: "midnightblue", solido: true },// ok
+        { x: 150, y: 260, w: 80, h: 30, color: "midnightblue" }, // ok
+        { x: 110, y: 280, w: 40, h: 10, color: "midnightblue"  }, // ok
+        { x: 230, y: 260, w: 360, h: 15, color: "midnightblue", solido: true }, // ok
+        { x: 700, y: 225, w: 100, h: 20, color: "midnightblue" , solido: true }, //ok
+        { x: 680, y: 225, w: 20, h: 75, color: "midnightblue" , solido: true }, //      ok
+        { x: 560, y: 275, w: 120, h: 25, color: "midnightblue", solido: true  }, // ok
+        
+        { x: 0, y: 200, w: 150, h:20, color: "midnightblue", solido: true  }, // ok
+        { x: 0, y: 180, w: 25, h:25, color: "midnightblue", solido: true  }, // ok
+        
+
+
+        
+        
+
+        { x: 90, y: 120, w: 90, h: 15, color: "midnightblue" },
+        { x: 235, y: 75, w: 110, h: 15, color: "midnightblue" },
+        { x: 290, y:140, w: 100, h: 15, color: "midnightblue" },
+        { x: 440, y:100, w: 60, h: 15, color: "midnightblue" },
+        { x: 550, y:50, w: 60, h: 15, color: "midnightblue" },
+        { x: 690, y:80, w: 30, h: 30, color: "midnightblue" , solido: true},
+        { x: 765, y:150, w: 30, h: 30, color: "midnightblue" , solido: true},
+        { x: 690, y:200 , w: 30, h: 30, color: "midnightblue", solido: true },
+
+
+        
+        // { x: 700, y: 225, w: 100, h: 20, color: "midnightblue" },
+
+        // { x: 120, y: 160, w: 100, h: 20, color: "midnightblue" },
+        // { x: 300, y: 120, w: 120, h: 20, color: "midnightblue" },
+        // { x: 520, y: 100, w: 100, h: 20, color: "midnightblue" }
+    ];
+
+    // ITENS
+    itens = [
+        { x: 765, y: 265, w: 20, h: 20, color: "cyan", coletado: false },
+        { x: 695, y: 25,  w: 20, h: 20, color: "cyan", coletado: false }
+    ];
+
+    // INIMIGOS
+    inimigos = [
+        {
+            x: 360,
+            y: 230,
+            w: 40,
+            h: 30,
+            color: "purple",
+            speed: 0.6,
+            direcao: 1,
+            limiteEsquerdo: 185,
+            limiteDireito: 560
+        },
+        {
+            x: 320,
+            y: 340  ,
+            w: 40,
+            h: 30,
+            color: "purple",
+            speed: 0.6,
+            direcao: 1,
+            limiteEsquerdo: 240,
+            limiteDireito: 510
+        }
+    ];
+
+    // ESPINHOS
+    espinhos = [
+        { x: 110, y: 390, w: 80, h: 10, color: "silver" },// ok
+        // { x: 220, y: 180, w: 40, h: 15, color: "silver" },
+        // { x: 420, y: 140, w: 40, h: 15, color: "silver" }
+        { x: 25, y: 190, w: 45, h:10, color: "silver"}, // ok
+        { x: 720, y: 215, w: 80, h:10, color: "silver"}, // ok  
+        { x: 630, y: 265, w: 50, h:10, color: "silver"}, // ok   
+    ];
+
+    // NAVE
+    nave = {
+        x: 270,
+        y: 15,
+        w: 60,
+        h: 60,
+        color: "blue"
+    };
+
+    // SPAWN
+    spawnX = 80;
+    spawnY = 150;
+
+    player.x = spawnX;
+    player.y = spawnY;
+    player.vy = 0;
+
+    // RESET DA FASE
+    itensColetados = 0;
+    faseConcluida = false;
+    mensagem = "";
+}
 // ===================================================
 //    FUNÇÃO DE REINICIO
 // ==================================================
@@ -192,6 +447,13 @@ function reiniciarJogo() {
     if (faseAtual == 2) {
         carregarFase2();
     }
+    if (faseAtual == 3) {
+        carregarFase3()
+    }
+
+    if (faseAtual ==4){
+        carregarFase4()
+    }
 
     vidas = 2;
     mensagem = "";
@@ -199,6 +461,8 @@ function reiniciarJogo() {
     morreu = false;
     noChao = false;
     encostandoNoInimigo = false;
+    encostandoNoEspinho = false
+    mostrandoIntroFase = false;
 
     player.x = spawnX;
     player.y = spawnY;
@@ -243,6 +507,7 @@ function desenhar(){
             player.y = plat.y - player.h;
             player.vy = 0;
             noChao = true
+            solido: true
         }
     }
 
@@ -260,13 +525,50 @@ function desenhar(){
     //    MOVIMENTO DO PLAYER
     // ------------------------------------------------
 
-    if (!faseConcluida && !morreu){
-        if (teclas.esquerda){
-            player.x -= player.speed;
+    if (!faseConcluida && !morreu && !mostrandoIntroFase) {
+        let novoX = player.x;
+
+        if (teclas.esquerda) {
+            novoX -= player.speed;
         }
-        if (teclas.direita){
-            player.x += player.speed;
+
+        if (teclas.direita) {
+            novoX += player.speed;
         }
+
+        // colisão lateral com blocos sólidos
+        for (let plat of plataformas) {
+            if (plat.solido) {
+                let colideHorizontal =
+                    novoX < plat.x + plat.w &&
+                    novoX + player.w > plat.x &&
+                    player.y < plat.y + plat.h &&
+                    player.y + player.h > plat.y;
+
+                if (colideHorizontal) {
+                    // bateu pela esquerda do bloco
+                    if (player.x + player.w <= plat.x) {
+                        novoX = plat.x - player.w;
+                    }
+
+                    // bateu pela direita do bloco
+                    if (player.x >= plat.x + plat.w) {
+                        novoX = plat.x + plat.w;
+                    }
+                }
+            }
+        }
+
+        player.x = novoX;
+    }
+    // -------------------------------------------
+    // LIMITES DO MAPA
+    // --------------------------------------------
+    if (player.x < 0){
+        player.x = 0;
+    }
+    if (player.x + player.w > canvas.width){
+        player.x = canvas.width - player.w;
     }
 
     // ------------------------------------------------
@@ -282,7 +584,7 @@ function desenhar(){
     // ------------------------------------------------
     //    MOVIMENTO - INIMIGOS
     // ------------------------------------------------
-    if (faseAtual == 2) {
+    if (faseAtual == 2 || faseAtual == 4) {
         for (let inimigo of inimigos) {
             inimigo.x += inimigo.speed * inimigo.direcao;
 
@@ -295,6 +597,10 @@ function desenhar(){
             }
         }
     }
+
+    // -------------------------------------------------
+    //    CAMADA ESCURA
+    // -------------------------------------------------
     // ------------------------------------------------
     //    INTERAÇÃO COM INIMIGOS
     // ------------------------------------------------
@@ -317,10 +623,41 @@ function desenhar(){
     }
 
     // ------------------------------------------------
+    //    INTERAÇÃO COM ESPINHOS
+    // ------------------------------------------------
+    let tocandoEspinho = false;
+
+    for (let espinho of espinhos) {
+        let hitboxEspinho = {
+            x: espinho.x + 4,
+            y: espinho.y,
+            w: espinho.w - 8,
+            h: 8
+        };
+
+        if (colisao(player, hitboxEspinho)) {
+            tocandoEspinho = true;
+        }
+    }
+   if (tocandoEspinho) {
+        if (!encostandoNoEspinho) {
+            vidas--;
+            encostandoNoEspinho = true;
+
+            player.x = spawnX;
+            player.y = spawnY;
+            player.vy = 0;
+        }
+    } else {
+        encostandoNoEspinho = false;
+    }
+
+    // ------------------------------------------------
     //    VERIFICAR MORTE
     // ------------------------------------------------
     if (vidas <= 0 && !morreu){
         morreu = true
+        mortesTotais ++;
 
         setTimeout(() => {
             reiniciarJogo();
@@ -353,6 +690,7 @@ function desenhar(){
     document.getElementById("itens").textContent = itensColetados;
     document.getElementById("vidas").textContent = vidas;
     document.getElementById("fase").textContent = faseAtual;
+    document.getElementById("mortes").textContent = mortesTotais;
 
     // ------------------------------------------------
     //    DESENHAR CENÁRIO
@@ -375,10 +713,54 @@ function desenhar(){
         }
     }
 
+    for (let espinho of espinhos){
+        desenha_retangulo(espinho);
+    }
+
     // Desenhar player apenas se não morreu ou passou de fase
     if (!faseConcluida && !morreu){
         desenha_retangulo(player); // desenha o player na nova posição
     } 
+
+    //---------------------------------
+    // ESCURIDÃO DA FASE 4
+    // ---------------------------------
+    if (faseAtual == 4) {
+        ctx.save();
+        ctx.fillStyle = "rgba(0, 0, 0, 1)";
+        ctx.beginPath();
+
+        // camada preta na tela inteira
+        ctx.rect(0, 0, canvas.width, canvas.height);
+
+        // luz do player
+        let raioPlayer = 50;
+        let cxPlayer = player.x + player.w / 2;
+        let cyPlayer = player.y + player.h / 2;
+        ctx.moveTo(cxPlayer + raioPlayer, cyPlayer);
+        ctx.arc(cxPlayer, cyPlayer, raioPlayer, 0, Math.PI * 2);
+
+        // luz dos itens
+        for (let item of itens) {
+            if (!item.coletado) {
+                let raioItem = 20;
+                let cxItem = item.x + item.w / 2;
+                let cyItem = item.y + item.h / 2;
+                ctx.moveTo(cxItem + raioItem, cyItem);
+                ctx.arc(cxItem, cyItem, raioItem, 0, Math.PI * 2);
+            }
+        }
+
+        // luz da nave
+        let raioNave = 30;
+        let cxNave = nave.x + nave.w / 2;
+        let cyNave = nave.y + nave.h / 2;
+        ctx.moveTo(cxNave + raioNave, cyNave);
+        ctx.arc(cxNave, cyNave, raioNave, 0, Math.PI * 2);
+
+        ctx.fill("evenodd");
+        ctx.restore();
+    }
 
     // ------------------------------------------------
     //    MENSAGEM DO TOPO
@@ -418,7 +800,30 @@ function desenhar(){
         ctx.fillStyle = "red";
         ctx.font = "50px Arial";
         ctx.textAlign = "center";
-        ctx.fillText("VOCÊ MORREU", canvas.width / 2, canvas.height / 2);
+        ctx.fillText("VOCÊ PERDEU", canvas.width / 2, canvas.height / 2);
+    }
+
+    if(mostrandoIntroFase){
+        let textoFase = TextoDaFase();
+
+        ctx.fillStyle = "rgba(0, 0, 0, 0.7)";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+        ctx.fillStyle = "rgba(20, 20, 20, 0.85)";
+        ctx.fillRect(100, 110, 600, 200);
+
+        ctx.fillStyle = "white";
+        ctx.textAlign = "center";
+
+        ctx.font = "36px Arial";
+        ctx.fillText(textoFase.titulo, canvas.width / 2, 160);
+
+        ctx.font = "20px Arial";
+        ctx.fillText(textoFase.descricao1, canvas.width / 2, 210);
+        ctx.fillText(textoFase.descricao2, canvas.width / 2, 240);
+
+        ctx.font = "18px Arial";
+        ctx.fillText("Pressione qualquer tecla para começar", canvas.width / 2, 280);
     }
 
     // ------------------------------------------------
@@ -426,12 +831,20 @@ function desenhar(){
     // ------------------------------------------------
     // chama a função de novo (loop infinito)
     requestAnimationFrame(desenhar);
-}
 
+}
 // ===================================================
-//    INICIAR O JOGO
+//    INICIAR O JOGO - MOMENTO DE TESTES    
 // ==================================================
-carregarFase1();
+
+// carregarFase1();
+if (debugFase == 1) carregarFase1();
+if (debugFase == 2) carregarFase2();
+if (debugFase == 3) carregarFase3();
+if(debugFase == 4) carregarFase4();
+
+faseAtual = debugFase;
+mostrandoIntroFase = true
 desenhar();     
 
 // ===================================================
@@ -439,43 +852,58 @@ desenhar();
 // ==================================================
 // quando aperta a tecla
 document.addEventListener("keydown", function(evento){
-    if (evento.key == "ArrowLeft") { // se apertar seta pra esquerda
+
+     if (mostrandoIntroFase) {
+        mostrandoIntroFase = false;
+        return;
+    }
+
+    if (evento.key == "a" || evento.key == "A") { // se apertar seta pra esquerda
         teclas.esquerda = true// move o player 
     }
 
-    if (evento.key == "ArrowRight") { // se apertar seta pra direita
+    if (evento.key == "d" || evento.key == "D") { // se apertar seta pra direita
         teclas.direita = true // move o player
     }
-    if (evento.key == "ArrowUp" && noChao && !faseConcluida && !morreu){
-        player.vy = -9.5;
+    if ((evento.key == "w" || evento.key == "W") && noChao && !faseConcluida && !morreu) {
+        if (faseAtual == 3 || faseAtual == 4) {
+            player.vy = -8.25;
+        } else {
+            player.vy = -9.5;
+        }
     }
     if (evento.key == "Enter" && faseConcluida){
         faseAtual++;
 
         if (faseAtual == 2){
             carregarFase2();
+            mostrandoIntroFase = true;
+        }
+        if (faseAtual == 3){
+            carregarFase3();
+            mostrandoIntroFase = true;
+        }
+
+        if (faseAtual == 4) {
+            carregarFase4();
+            mostrandoIntroFase = true
         }
     }
+
+   
 });
 
 
 // Quando solta a tecla
 document.addEventListener("keyup", function(evento){ //conseguir apertar 2 teclas "ao mesmo tempo"
-    if (evento.key == "ArrowLeft"){
+    if (evento.key == "a" || evento.key == "A"){
         teclas.esquerda = false;
     }
 
-    if (evento.key == "ArrowRight"){
+    if (evento.key == "d" || evento.key == "D"){
         teclas.direita = false;
     }
 })
-
-
-
-
-
-
-
 
 
 
